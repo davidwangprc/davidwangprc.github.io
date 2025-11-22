@@ -23,6 +23,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/projects/";
           },
+        },{id: "nav-recipes",
+          title: "Recipes",
+          description: "A growing collection of your cool recipes.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/recipes/";
+          },
         },{id: "nav-repositories",
           title: "Repositories",
           description: "Edit the `_data/repositories.yml` and change the `github_users` and `github_repos` lists to include your own GitHub profile and repositories.",
@@ -37,12 +44,12 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/books/";
               },
-            },{id: "dropdown-cv",
-              title: "cv",
+            },{id: "dropdown-news",
+              title: "news",
               description: "",
               section: "Dropdown",
               handler: () => {
-                window.location.href = "/cv/";
+                window.location.href = "/news/";
               },
             },{id: "post-comfyui-从入门到精通-完整使用说明书-2025版",
         
@@ -468,6 +475,11 @@ ninja.data = [{
           description: "another project with an image 🎉",
           section: "Projects",handler: () => {
               window.location.href = "/projects/9_project/";
+            },},{id: "recipes-草鱼全鱼宴-四菜一汤",
+          title: '草鱼全鱼宴 · 四菜一汤',
+          description: "一条3斤草鱼，从头吃到尾，零浪费的全鱼利用法",
+          section: "Recipes",handler: () => {
+              window.location.href = "/recipes/1_recipes/";
             },},{
         id: 'social-cv',
         title: 'CV',
