@@ -1,0 +1,33 @@
+// 菜谱专用表格美化 - 暖橙色美食风（可随时改颜色）
+.recipe-table {
+    width: 100%;
+    margin: 2.5rem 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 1.05rem;
+    border: 2px solid #ff9a4d;
+
+    th {
+        background: #fff0e6;
+        color: #e66a00;
+        padding: 14px 12px;
+        text-align: center;
+        border: 2px solid #ff9a4d;
+    }
+
+    td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ff9a4d;
+    }
+
+    tr:nth-child(even) {
+        background-color: #fffdfa;
+    }
+
+    // 手机端优化
+    @media (max-width: 768px) {
+        font-size: 0.95rem;
+        th, td { padding: 10px 6px; }
+    }
+}
