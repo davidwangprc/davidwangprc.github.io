@@ -51,7 +51,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/news/";
               },
-            },{id: "post-comfyui-从入门到精通-完整使用说明书-2025版",
+            },{id: "post-使用-jekyll-和-al-folio-模板快速搭建个人学术网站",
+        
+          title: "使用 Jekyll 和 al-folio 模板快速搭建个人学术网站",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/jekyll-and-al-folio-intro/";
+          
+        },
+      },{id: "post-comfyui-从入门到精通-完整使用说明书-2025版",
         
           title: "ComfyUI 从入门到精通：完整使用说明书（2025版）",
         
