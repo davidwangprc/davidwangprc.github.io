@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "使用 Jekyll 和 al-folio 模板快速搭建个人学术网站"
-date:   2026-01-20 10:00:00 +0800
+date:   2026-01-20 04:00:00 +0800
 categories: tech jekyll
 inline: false
 related_posts: true
