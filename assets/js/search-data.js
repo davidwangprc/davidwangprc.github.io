@@ -51,9 +51,31 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/news/";
               },
-            },{id: "post-使用-jekyll-和-al-folio-模板快速搭建个人学术网站",
+            },{id: "post-html元素在你的场景中各自承担的角色和背后的原理",
         
-          title: "使用 Jekyll 和 al-folio 模板快速搭建个人学术网站",
+          title: "HTML元素在你的场景中各自承担的角色和背后的原理",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/HTML-post/";
+          
+        },
+      },{id: "post-layout-distill",
+        
+          title: "layout_distill",
+        
+        description: "Distill布局与Front Matter配置详解",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/front-matter-layout-distill/";
+          
+        },
+      },{id: "post-使用-jekyll-和-al-folio-模板快速搭建网站",
+        
+          title: "使用 Jekyll 和 al-folio 模板快速搭建网站",
         
         description: "",
         section: "Posts",
@@ -98,16 +120,16 @@ ninja.data = [{
           description: "an example of a blog post with disqus comments",
           section: "Docs",handler: () => {
               window.location.href = "/docs/2015-10-20-disqus-comments/";
-            },},{id: "docs-a-post-with-twitter",
-          title: 'a post with twitter',
-          description: "an example of a blog post with twitter",
-          section: "Docs",handler: () => {
-              window.location.href = "/docs/2020-09-28-twitter/";
             },},{id: "docs-a-distill-style-blog-post",
           title: 'a distill-style blog post',
           description: "an example of a distill-style blog post and main elements",
           section: "Docs",handler: () => {
               window.location.href = "/docs/2018-12-22-distill/";
+            },},{id: "docs-a-post-with-twitter",
+          title: 'a post with twitter',
+          description: "an example of a blog post with twitter",
+          section: "Docs",handler: () => {
+              window.location.href = "/docs/2020-09-28-twitter/";
             },},{id: "docs-a-post-with-diagrams",
           title: 'a post with diagrams',
           description: "an example of a blog post with diagrams",
