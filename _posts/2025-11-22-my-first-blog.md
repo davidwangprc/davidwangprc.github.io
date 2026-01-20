@@ -84,10 +84,11 @@ git clone https://github.com/ltdrdata/ComfyUI-Manager.git custom_nodes/ComfyUI-M
 
 ```mermaid
 graph LR
- A[画布 Canvas] --> B[右键 → Add Node]
- C[Queue Prompt] --> D[生成按钮]
- E[Load / Save] --> F[工作流保存加载]
- G[右上角菜单] --> H[Manager → 安装节点/模型]
+    A[画布 Canvas] --> B[右键 → Add Node]
+    C[Queue Prompt] --> D[生成按钮]
+    E[Load / Save] --> F[工作流保存加载]
+    G[右上角菜单] --> H[Manager → 安装节点/模型]
+
 ```
 
 ---
@@ -284,7 +285,7 @@ ComfyUI 已经彻底超越传统 WebUI，成为 2025 年 AI 绘画的「生产�
 
 祝你玩得开心，生成愉快！
 
-```typograms
+<pre>
    +-------------------+
    |     ComfyUI       |
    |   Master 2025     |
@@ -296,6 +297,6 @@ ComfyUI 已经彻底超越传统 WebUI，成为 2025 年 AI 绘画的「生产�
              \|/
               V
         出图如丝般顺滑
-```
+</pre>
 
 —— End of ComfyUI 完全使用说明书 ——
