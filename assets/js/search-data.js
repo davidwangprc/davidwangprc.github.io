@@ -51,9 +51,9 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/news/";
               },
-            },{id: "post-html元素在你的场景中各自承担的角色和背后的原理",
+            },{id: "post-post文章中代码块无法被完整渲染的解决办法",
         
-          title: "HTML元素在你的场景中各自承担的角色和背后的原理",
+          title: "Post文章中代码块无法被完整渲染的解决办法",
         
         description: "",
         section: "Posts",
@@ -64,7 +64,7 @@ ninja.data = [{
         },
       },{id: "post-layout-distill",
         
-          title: "layout_distill",
+          title: "Layout_distill",
         
         description: "Distill布局与Front Matter配置详解",
         section: "Posts",
