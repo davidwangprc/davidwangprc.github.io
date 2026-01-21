@@ -1,11 +1,10 @@
 ---
 layout: distill
-title: layout_distill
+title: Layout_distill
 description: Distill布局与Front Matter配置详解
 date: 2026-01-20
 featured: true
-tags: Jekyll layout distill
-giscus_comments: true
+tags: Jekyll layout distill 
 mermaid:
   enabled: true
   zoomable: true
@@ -13,17 +12,14 @@ code_diff: true
 chart:
   chartjs: true
   echarts: true
-tikzjax: true
 toc:
   - name: Distill 布局介绍 
-    subsections:
-    - name: 文件结构
   - name: Front Matter 调用逻辑详解
     subsections:
     - name: 基础工作流程
-  - name: 调试与最佳实践
-  - name: 总结
-  - name: 注意事项
+    - name: 变量的作用、调用方式和逻辑
+    - name: Front Matter 变量详细说明
+  - name: 实践案例
 
 ---
 
@@ -49,7 +45,6 @@ toc:
 ### 文件结构：
 
 项目结构如下：
-
 <figure>
   <pre style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace; font-size: 0.9em;">
 /
@@ -60,9 +55,13 @@ toc:
 └─ _includes/
    └── distill_scripts.liquid
   </pre>
-  <figcaption>项目文件结构（关键部分）</figcaption>
+  <figcaption style="color:white">项目文件结构（关键部分）</figcaption>
 </figure>
 
+>**核心文件解析**
+* **distill.liquid（布局主文件）**
+* **distill_scripts.liquid（脚本管理）**
+FrontMatter功能实现的核心，通过`Liquid`条件语句动态加载资源。
 
 ## 二、Front Matter 调用逻辑详解
 
@@ -81,12 +80,12 @@ flowchart TD
     G --> H[浏览器执行 JS<br>实现交互功能]
 ```
 
-### 如何工作（简化调用流程）
+#### 如何工作（简化调用流程）
 1. Jekyll 读取 Markdown 文件 → 解析 front matter → 把变量存入 `page` 对象（如 `page.mermaid.enabled`）。
 2. 渲染时加载 `distill.liquid` 布局。
 3. 内容主体被渲染后，JS 脚本在浏览器端处理交互（如 Mermaid 渲染图表、TikZJax 编译 LaTeX 绘图）。
 
-#### 变量的作用、调用方式和逻辑：
+### 2.**变量的作用、调用方式和逻辑**
 
 | Front Matter 变量          | 类型       | 作用与调用逻辑                                                                 |
 |----------------------------|------------|--------------------------------------------------------------------------------|
@@ -103,31 +102,28 @@ flowchart TD
 | **tikzjax: true**          | 布尔      | 启用 TikZJax（LaTeX 绘图工具 TikZ 的 JS 渲染版）。布局加载 TikZJax 脚本。<br>使用方式：在 Markdown 中写 ```tikz ... \begin{tikzpicture} ... \end{tikzpicture} ``` 代码块渲染矢量图。 |
 | **toc:**<br>  - name: ... | 数组      | 手动定义目录（Table of Contents）。Distill 布局会根据这个数组生成侧边栏或浮动 TOC（通常是可滚动的目录树）。<br>每个 `- name: xxx` 对应文章中的一个章节标题（需匹配 H2/H3）。如果不设，某些版本可能自动生成（依赖 jekyll-toc 插件）。 |
 
-### 2. **核心文件解析**
 
-#### **distill.liquid（布局主文件）**
-
-#### **distill_scripts.liquid（脚本管理）**
-这个文件是 Front Matter 功能实现的核心，通过 Liquid 条件语句动态加载资源。
 
 ### 3. **Front Matter 变量详细说明**
 
 #### **布局控制**
+
 ```yaml
 layout: distill  # 必需！指定使用 Distill 布局
 ```
 
 #### **内容元数据**
-```yaml
+
+{% highlight yaml linenos %}
 title: "文章标题"           # 显示在 <h1> 和浏览器标签
 description: "文章描述"     # SEO 和卡片预览
 date: 2026-01-20           # 发布日期，控制显示和排序
 featured: true             # 在首页突出显示
 tags: [Jekyll, layout]     # 分类标签
-```
+{% endhighlight %}
 
 #### **交互功能配置**
-```yaml
+{% highlight yaml linenos %}
 # 1. Mermaid 图表
 mermaid:
   enabled: true     # 启用 Mermaid.js
@@ -150,45 +146,45 @@ tikzjax: true       # 启用 TikZ 绘图
 toc:
   - name: "章节一"     # 手动定义目录结构
   - name: "章节二"
-```
+{% endhighlight %}
 
 #### **社交与评论**
-```yaml
+{% highlight yaml linenos %}
 giscus_comments: true  # 启用 Giscus 评论系统
 disqus_comments: true  # 启用 Disqus 评论
-```
+{% endhighlight %}
 
 ### 4. **使用示例**
 
 #### **Mermaid 图表**
-````markdown
+{% highlight markdown linenos %}
 ```mermaid
 graph TD
     A[开始] --> B[处理数据]
     B --> C[生成图表]
     C --> D[结束]
 ```
-````
+{% endhighlight %}
 
 #### **TikZ 绘图**
-````markdown
+{% highlight markdown linenos %}
 ```tikz
 \begin{tikzpicture}
   \draw (0,0) circle (1cm);
   \draw (0,0) -- (1,1);
 \end{tikzpicture}
 ```
-````
+{% endhighlight %}
 
 #### **代码差异**
-````markdown
+{% highlight markdown linenos %}
 ```diff
 - const oldVersion = "1.0";
 + const newVersion = "2.0";
 ```
-````
+{% endhighlight %}
 
-## 三、调试与最佳实践
+## 三、实践案例
 
 ### 1. **常见问题排查**
 
@@ -199,18 +195,14 @@ graph TD
 | 未来文章未显示 | 日期未到 | 设置 `future: true` 或修改日期 |
 | 样式错乱 | CSS 冲突 | 检查自定义样式 |
 
-### 2. **性能优化建议**
+- 这些功能依赖 al-folio 的内置 JS（在 `assets/js/distillpub/` 下），确保你的仓库是最新版。
+- 部分功能（如 TOC 自动生成）可能还需要额外插件（如 jekyll-toc），但 al-folio 已内置大部分。
+- 如果某个功能不生效，检查：
+  - 是否真的是 `layout: distill`（不是 `post`）。
+  - 本地运行 `bundle exec jekyll serve` 查看控制台是否有 JS 加载错误。
+  - 日期是否为未来（不会发布）。
 
-```yaml
-# 按需加载，避免资源浪费
-mermaid:
-  enabled: true      # 只在需要时启用
-chart:
-  chartjs: false     # 不需要时不加载
-  echarts: true      # 按需选择图表库
-```
-
-### 3. **扩展功能**
+### 2. **扩展功能**
 
 如需添加自定义功能：
 
@@ -221,26 +213,11 @@ chart:
 
 2. 在 `distill.liquid` 或 `distill_scripts.liquid` 中添加条件逻辑：
    ```liquid
+   {% raw %}
    {% if page.custom_feature %}
      <script src="/assets/js/custom.js"></script>
    {% endif %}
+   {% endraw %}
    ```
 
-## 四、总结
 
-`layout: distill` 为 al-folio 主题提供了强大的扩展能力，通过精心设计的 Front Matter 变量系统，实现了：
-
-1. **模块化加载**：按需加载 JS/CSS，优化性能
-2. **声明式配置**：简单的 YAML 配置启用复杂功能
-3. **学术友好**：专为技术博客和论文设计
-4. **高度可扩展**：易于添加新功能和自定义样式
-
-这种设计模式展示了 Jekyll 静态站点生成器的强大灵活性，通过 Liquid 模板和 Front Matter 的巧妙结合，实现了动态功能与静态性能的完美平衡。
-
-## 注意事项
-- 这些功能依赖 al-folio 的内置 JS（在 `assets/js/distillpub/` 下），确保你的仓库是最新版。
-- 部分功能（如 TOC 自动生成）可能还需要额外插件（如 jekyll-toc），但 al-folio 已内置大部分。
-- 如果某个功能不生效，检查：
-  - 是否真的是 `layout: distill`（不是 `post`）。
-  - 本地运行 `bundle exec jekyll serve` 查看控制台是否有 JS 加载错误。
-  - 日期是否为未来（不会发布）。

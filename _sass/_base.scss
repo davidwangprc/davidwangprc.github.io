@@ -929,6 +929,21 @@ pre {
   }
 }
 
+.keep-indent {
+  white-space: pre !important;   /* 强制保留换行与缩进 */
+  overflow-x: auto;              /* 太长时横向滚动 */
+  padding: 1rem;
+  border-radius: 6px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.85em;
+  line-height: 1.45;
+}
+.keep-indent code {
+  white-space: pre !important;   /* 双重保险 */
+  padding: 0;                    /* 去掉浏览器默认 2px */
+  background: none;              /* 不让内层 code 再带背景 */
+}
+
 code {
   color: var(--global-theme-color);
   background-color: var(--global-code-bg-color);
