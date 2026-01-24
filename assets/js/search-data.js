@@ -23,19 +23,19 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/projects/";
           },
+        },{id: "nav-书签与资源",
+          title: "书签与资源",
+          description: "个人精选的 AI 工具、模型、工作流、图像资源等链接集合（持续更新）",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/bookmarks/";
+          },
         },{id: "nav-recipes",
           title: "Recipes",
           description: "A growing collection of your cool recipes.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/recipes/";
-          },
-        },{id: "nav-repositories",
-          title: "Repositories",
-          description: "Edit the `_data/repositories.yml` and change the `github_users` and `github_repos` lists to include your own GitHub profile and repositories.",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/repositories/";
           },
         },{id: "dropdown-模板文档",
               title: "模板文档",
@@ -51,7 +51,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/news/";
               },
-            },{id: "post-post文章中代码块无法被完整渲染的解决办法",
+            },{id: "post-添加-书签与资源-板块的完整实现指南",
+        
+          title: "添加“书签与资源”板块的完整实现指南",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/%E6%B7%BB%E5%8A%A0-%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90-%E6%9D%BF%E5%9D%97/";
+          
+        },
+      },{id: "post-post文章中代码块无法被完整渲染的解决办法",
         
           title: "Post文章中代码块无法被完整渲染的解决办法",
         

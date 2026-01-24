@@ -1,4 +1,186 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://davidwangprc.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://davidwangprc.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2026-01-21T07:15:03+00:00</updated><id>https://davidwangprc.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Post文章中代码块无法被完整渲染的解决办法</title><link href="https://davidwangprc.github.io/blog/2026/HTML-post/" rel="alternate" type="text/html" title="Post文章中代码块无法被完整渲染的解决办法"/><published>2026-01-20T04:00:00+00:00</published><updated>2026-01-20T04:00:00+00:00</updated><id>https://davidwangprc.github.io/blog/2026/HTML-post</id><content type="html" xml:base="https://davidwangprc.github.io/blog/2026/HTML-post/"><![CDATA[<blockquote> <p>利用 <code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 和 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 或者 <code class="language-plaintext highlighter-rouge">raw</code> 和 <code class="language-plaintext highlighter-rouge">highlight</code> 元素包裹代码块</p> </blockquote> <h3 id="1-pre-元素内容保全的基石"><strong>1.</strong> <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 元素：<strong>内容保全</strong>的基石</h3> <p><br/> <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 是“预格式化文本”（Preformatted Text）的缩写，其<strong>核心设计原理是“所见即所得”</strong>。浏览器渲染 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 标签内的文本时，会<strong>严格保留所有的空白字符</strong>（空格、制表符、换行符）。这与处理普通段落（<code class="language-plaintext highlighter-rouge">&lt;p&gt;</code>）的逻辑截然不同——普通段落中，连续的空白符会被合并成一个空格。 <br/> 默认情况下，浏览器会为 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 元素应用 <code class="language-plaintext highlighter-rouge">white-space: pre;</code> 这个CSS属性。这个属性值正是“保留所有空白，仅在换行符处换行”的指令。当你将代码直接放在 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 标签内时，你实际上是在告诉Jekyll：“这部分内容我已经用原生HTML标记好了，不需要你进行Markdown到HTML的转换，更不需要调用语法高亮引擎（如Rouge）。” 这从根本上避免了因高亮引擎不支持某些语言而导致的渲染失败。 <br/> <br/>代码中的缩进、对齐、空行等结构会被原封不动地展示出来，这对于展示代码、命令行输出、ASCII图表等至关重要。 <br/> <br/>简单来说，<strong><code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 确保了内容的“形”不被改变</strong>。 <br/></p> <hr/> <p><br/></p> <h3 id="2-figure-元素语义关联的容器"><strong>2.</strong> <code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 元素：<strong>语义关联</strong>的容器</h3> <p><br/> <code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 是一个语义化容器元素，其<strong>核心设计原理是“标记一个独立的内容单元，并允许为其提供说明”</strong>。它用来包裹一块<strong>独立、自包含的内容</strong>（如图片、代码、图表、引文），并通过可选的 <code class="language-plaintext highlighter-rouge">&lt;figcaption&gt;</code> 子元素，将内容与其标题/说明<strong>在语义上明确地关联</strong>起来。 <br/> 从功能上讲，<code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 本身就像一个 <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>，但赋予了更强的语义。浏览器或辅助技术（如屏幕阅读器）可以识别这种关联，从而更好地理解页面结构。它将 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code>（代码块）和 <code class="language-plaintext highlighter-rouge">&lt;figcaption&gt;</code>（说明文字）捆绑成一个逻辑整体。这在文档结构上清晰地表明“这段代码和下面的标题是一体的”。 <br/> 这种语义化的标记有助于屏幕阅读器用户理解内容关系，同时向搜索引擎清晰地传达了内容的结构。它为你提供了一个完美的、语义正确的“包装盒”，让你可以方便地为整个代码块单元（包括代码和说明）应用统一的CSS样式，比如添加边框、背景或外边距，而无需使用无语义的 <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>。 <br/> 简单来说，<strong><code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 确保了内容与说明的“关系”被清晰地定义</strong>。</p> <hr/> <p><br/></p> <h3 id="3避免-html或者liquid代码块被执行的解决办法"><strong>3.</strong>避免 <code class="language-plaintext highlighter-rouge">html</code>或者<code class="language-plaintext highlighter-rouge">liquid</code>代码块<strong>被执行</strong>的解决办法<br/></h3> <p>使用<code class="language-plaintext highlighter-rouge">capture 变量 + raw 包代码 + xml_escape</code>输出纯文本的样式，保留缩进、空行，可随手加语法高亮，多段代码互不串扰。 <br/></p> <details><summary>原始代码 Click here to know more</summary> <pre class="keep-indent">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://davidwangprc.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://davidwangprc.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2026-01-24T05:42:43+00:00</updated><id>https://davidwangprc.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">添加“书签与资源”板块的完整实现指南</title><link href="https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0-%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90-%E6%9D%BF%E5%9D%97/" rel="alternate" type="text/html" title="添加“书签与资源”板块的完整实现指南"/><published>2026-01-24T00:00:00+00:00</published><updated>2026-01-24T00:00:00+00:00</updated><id>https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0%E2%80%9C%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90%E2%80%9D%E6%9D%BF%E5%9D%97</id><content type="html" xml:base="https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0-%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90-%E6%9D%BF%E5%9D%97/"><![CDATA[<h1 id="al-folio-模板中添加书签与资源板块的完整实现指南">al-folio 模板中添加“书签与资源”板块的完整实现指南</h1> <p>在 al-folio 学术网站模板中添加一个功能完整、美观实用的<strong>书签与资源（Bookmarks）</strong>页面，是一个非常典型的自定义扩展案例。下面详细记录整个实现过程、核心逻辑、代码原理和关键技巧，供后续维护、复用或学习参考。</p> <h2 id="1-设计目标与最终效果">1. 设计目标与最终效果</h2> <ul> <li>集中管理大量外部链接资源（60+ 条）</li> <li>支持按分类组织</li> <li>每个书签显示：标题、描述、域名、网站 favicon</li> <li>页面内容接近全宽显示</li> <li>每个分类可折叠/展开</li> <li>顶部实时搜索（支持标题、描述、域名模糊匹配）</li> <li>交互优雅：悬停高亮、图标动画、深色模式完美支持</li> <li>维护成本极低：所有数据集中在一个 YAML 文件</li> </ul> <h2 id="2-核心实现思路为什么选择这种方式">2. 核心实现思路（为什么选择这种方式）</h2> <p>al-folio 提供了多种展示集合的方式：</p> <ul> <li>Collection（每个条目一个 md 文件）→ 适合少量项目（如 Projects、Recipes）</li> <li><code class="language-plaintext highlighter-rouge">_data/*.yml</code> + Liquid 循环 → 适合大量条目、频繁更新</li> </ul> <p>由于书签数量多、经常增删，最终选择 <strong><code class="language-plaintext highlighter-rouge">_data/bookmarks.yml</code> + 单页面渲染</strong> 的方案：</p> <ul> <li>所有数据集中管理，修改只需编辑一个文件</li> <li>无需自定义 layout，避免 Liquid 继承错误（如 <code class="language-plaintext highlighter-rouge">extends</code> 不支持）</li> <li>完全利用 Bootstrap 5 原生组件（list-group、collapse、form-control）</li> <li>通过少量 CSS + JS 实现高级交互</li> </ul> <h2 id="3-文件结构">3. 文件结构</h2> <figure> <pre style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace; font-size: 0.9em;">
+/
+├─ _data/
+│  └─ bookmarks.yml                 ← 所有书签数据（核心）
+└─ _pages/
+   └─ bookmarks.md                  ← 主页面（渲染 + 交互逻辑）
+  </pre> <figcaption style="color:white">项目文件结构</figcaption> </figure> <h2 id="4-数据文件_databookmarksyml">4. 数据文件：_data/bookmarks.yml</h2> <figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="pi">-</span> <span class="na">category</span><span class="pi">:</span> <span class="s">模型平台</span>
+  <span class="na">items</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">CivitAI</span>
+      <span class="na">url</span><span class="pi">:</span> <span class="s">https://civitai.com/</span>
+      <span class="na">desc</span><span class="pi">:</span> <span class="s">最大的 Stable Diffusion 模型和 LoRA 分享平台</span>
+    <span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">Hugging Face Models</span>
+      <span class="na">url</span><span class="pi">:</span> <span class="s">https://huggingface.co/models</span>
+      <span class="na">desc</span><span class="pi">:</span> <span class="s">开源模型共享平台</span>
+    <span class="c1"># ... 更多条目</span>
+
+<span class="pi">-</span> <span class="na">category</span><span class="pi">:</span> <span class="s">工作流平台</span>
+  <span class="na">items</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">ComfyUI Examples</span>
+      <span class="na">url</span><span class="pi">:</span> <span class="s">https://comfyanonymous.github.io/ComfyUI_examples/</span>
+      <span class="na">desc</span><span class="pi">:</span> <span class="s">官方 ComfyUI 示例工作流</span>
+    <span class="c1"># ... 更多条目</span>
+
+<span class="c1"># 其他分类同理</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p><strong>原理</strong>：Jekyll 自动将 <code class="language-plaintext highlighter-rouge">_data</code> 目录下的 YAML 文件加载为 <code class="language-plaintext highlighter-rouge">site.data</code>，可在任何页面通过 <code class="language-plaintext highlighter-rouge">site.data.bookmarks</code> 访问。</p> <h2 id="5-主页面_pagesbookmarksmd">5. 主页面：_pages/bookmarks.md</h2> <details><summary>完整代码与原理说明</summary> <pre class="keep-indent">
+  <code class="language-html">
+    
+
+---
+layout: page
+title: 书签与资源
+permalink: /bookmarks/
+description: 个人精选的 AI 工具、模型、工作流、图像资源等链接集合（持续更新）
+nav: true
+nav_order: 4
+---
+
+&lt;div class=&quot;container-fluid mt-4&quot;&gt;
+  &lt;div class=&quot;row justify-content-center&quot;&gt;
+    &lt;div class=&quot;col-12 col-xl-11&quot;&gt;
+      &lt;header class=&quot;post-header mb-5 text-center&quot;&gt;
+        &lt;h1 class=&quot;post-title&quot;&gt;{{ page.title }}&lt;/h1&gt;
+        &lt;p class=&quot;lead text-muted&quot;&gt;{{ page.description }}&lt;/p&gt;
+      &lt;/header&gt;
+
+      &lt;!-- 搜索框 --&gt;
+      &lt;div class=&quot;mb-5&quot;&gt;
+        &lt;input type=&quot;text&quot; id=&quot;bookmarkSearch&quot; class=&quot;form-control form-control-lg&quot; 
+               placeholder=&quot;🔍 搜索书签（支持标题、描述、域名）...&quot; autocomplete=&quot;off&quot;&gt;
+      &lt;/div&gt;
+
+      {% for cat in site.data.bookmarks %}
+        &lt;!-- 可折叠分类标题 --&gt;
+        &lt;h2 class=&quot;category mb-4 d-flex align-items-center collapsible&quot; 
+            data-bs-toggle=&quot;collapse&quot; 
+            data-bs-target=&quot;#collapse-{{ cat.category | slugify }}&quot; 
+            style=&quot;cursor: pointer;&quot;&gt;
+          &lt;i class=&quot;fas fa-chevron-down me-2 transition-icon&quot;&gt;&lt;/i&gt;
+          {{ cat.category }}
+          &lt;span class=&quot;badge bg-secondary ms-auto&quot;&gt;{{ cat.items.size }} 个&lt;/span&gt;
+        &lt;/h2&gt;
+
+        &lt;!-- 分类内容（Bootstrap collapse） --&gt;
+        &lt;div class=&quot;collapse show&quot; id=&quot;collapse-{{ cat.category | slugify }}&quot;&gt;
+          &lt;div class=&quot;list-group mb-5&quot;&gt;
+            {% for item in cat.items %}
+              &lt;a href=&quot;{{ item.url }}&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;
+                 class=&quot;list-group-item list-group-item-action d-flex align-items-center py-4 hover-shadow bookmark-item&quot;
+                 data-title=&quot;{{ item.title | downcase }}&quot;
+                 data-desc=&quot;{{ item.desc | default: &apos;&apos; | downcase }}&quot;
+                 data-domain=&quot;{{ item.url | remove: &apos;https://&apos; | remove: &apos;http://&apos; | split: &apos;/&apos; | first | downcase }}&quot;&gt;
+                
+                &lt;!-- 左侧外链图标 --&gt;
+                &lt;div class=&quot;me-4 text-muted flex-shrink-0&quot;&gt;
+                  &lt;i class=&quot;fas fa-external-link-alt fa-lg&quot;&gt;&lt;/i&gt;
+                &lt;/div&gt;
+
+                &lt;!-- 中间文字信息 --&gt;
+                &lt;div class=&quot;flex-grow-1&quot;&gt;
+                  &lt;h5 class=&quot;mb-1&quot;&gt;{{ item.title }}&lt;/h5&gt;
+                  {% if item.desc %}
+                    &lt;p class=&quot;mb-1 text-muted small&quot;&gt;{{ item.desc }}&lt;/p&gt;
+                  {% endif %}
+                  &lt;small class=&quot;text-muted&quot;&gt;
+                    &lt;i class=&quot;fas fa-link fa-xs me-1&quot;&gt;&lt;/i&gt;
+                    {{ item.url | remove: &apos;https://&apos; | remove: &apos;http://&apos; | split: &apos;/&apos; | first }}
+                  &lt;/small&gt;
+                &lt;/div&gt;
+
+                &lt;!-- 右侧 Favicon --&gt;
+                &lt;div class=&quot;ms-4 flex-shrink-0&quot;&gt;
+                  &lt;img src=&quot;https://www.google.com/s2/favicons?domain={{ item.url }}&amp;sz=32&quot;
+                       alt=&quot;favicon&quot; width=&quot;24&quot; height=&quot;24&quot; class=&quot;rounded&quot; loading=&quot;lazy&quot;
+                       onerror=&quot;this.style.display=&apos;none&apos;&quot;&gt;
+                &lt;/div&gt;
+              &lt;/a&gt;
+            {% endfor %}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      {% endfor %}
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 自定义样式 --&gt;
+&lt;style&gt;
+  /* 悬停与交互 */
+  .hover-shadow { transition: all 0.3s ease; background-color: var(--global-card-bg-color); }
+  .hover-shadow:hover { background-color: var(--global-bg-color) !important; transform: translateX(10px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+  
+  /* 折叠图标旋转 */
+  .transition-icon { transition: transform 0.3s ease; }
+  .collapsed .transition-icon { transform: rotate(-90deg); }
+  
+  /* 列表项样式 */
+  .list-group-item { border: none; border-bottom: 1px solid var(--global-divider-color); }
+  .list-group-item:last-child { border-bottom: none; }
+  
+  /* 分类标题下划线 */
+  .category { border-bottom: 2px solid var(--global-theme-color); padding-bottom: 0.5rem; display: inline-block; }
+  
+  /* 搜索框美化 */
+  #bookmarkSearch { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+&lt;/style&gt;
+
+&lt;!-- JavaScript 实现搜索与折叠交互 --&gt;
+&lt;script&gt;
+  // 实时搜索
+  document.getElementById(&apos;bookmarkSearch&apos;).addEventListener(&apos;input&apos;, function(e) {
+    const query = e.target.value.toLowerCase().trim();
+    document.querySelectorAll(&apos;.bookmark-item&apos;).forEach(item =&gt; {
+      const title = item.dataset.title;
+      const desc = item.dataset.desc;
+      const domain = item.dataset.domain;
+      const matched = title.includes(query) || desc.includes(query) || domain.includes(query);
+      item.style.display = matched ? &apos;&apos; : &apos;none&apos;;
+
+      // 自动控制分类折叠状态
+      const collapse = item.closest(&apos;.collapse&apos;);
+      if (collapse) {
+        const visibleItems = collapse.querySelectorAll(&apos;.bookmark-item[style=&quot;&quot;]&apos;);
+        const allItems = collapse.querySelectorAll(&apos;.bookmark-item&apos;);
+        if (visibleItems.length === 0 &amp;&amp; allItems.length &gt; 0) {
+          collapse.classList.remove(&apos;show&apos;);
+        } else if (visibleItems.length &gt; 0) {
+          collapse.classList.add(&apos;show&apos;);
+        }
+      }
+    });
+  });
+
+  // Bootstrap collapse 事件：控制箭头旋转
+  document.querySelectorAll(&apos;.collapse&apos;).forEach(collapse =&gt; {
+    collapse.addEventListener(&apos;show.bs.collapse&apos;, () =&gt; {
+      collapse.previousElementSibling.querySelector(&apos;.transition-icon&apos;).style.transform = &apos;rotate(0deg)&apos;;
+    });
+    collapse.addEventListener(&apos;hide.bs.collapse&apos;, () =&gt; {
+      collapse.previousElementSibling.querySelector(&apos;.transition-icon&apos;).style.transform = &apos;rotate(-90deg)&apos;;
+    });
+  });
+&lt;/script&gt;
+
+
+  </code>
+</pre> </details> <h2 id="6-关键技术点总结">6. 关键技术点总结</h2> <table> <thead> <tr> <th>功能</th> <th>实现方式</th> <th>原理说明</th> </tr> </thead> <tbody> <tr> <td>数据管理</td> <td><code class="language-plaintext highlighter-rouge">_data/bookmarks.yml</code></td> <td>Jekyll 自动加载为 <code class="language-plaintext highlighter-rouge">site.data</code>，集中维护</td> </tr> <tr> <td>全宽布局</td> <td><code class="language-plaintext highlighter-rouge">container-fluid</code> + <code class="language-plaintext highlighter-rouge">col-xl-11</code></td> <td>突破默认 930px 限制，接近全屏</td> </tr> <tr> <td>纵向列表</td> <td>Bootstrap <code class="language-plaintext highlighter-rouge">list-group</code> + flex</td> <td>每条占一行，信息完整显示</td> </tr> <tr> <td>Favicon 显示</td> <td>Google Favicon API</td> <td><code class="language-plaintext highlighter-rouge">https://www.google.com/s2/favicons?domain=URL</code></td> </tr> <tr> <td>可折叠分类</td> <td>Bootstrap 5 <code class="language-plaintext highlighter-rouge">collapse</code> + JS 事件</td> <td>原生支持，无需额外库</td> </tr> <tr> <td>实时搜索</td> <td>原生 JS <code class="language-plaintext highlighter-rouge">input</code> 事件 + <code class="language-plaintext highlighter-rouge">dataset</code> 属性</td> <td>模糊匹配标题/描述/域名，隐藏不匹配项</td> </tr> <tr> <td>交互美化</td> <td>CSS 变量 + transition</td> <td>完全适配深色模式</td> </tr> </tbody> </table> <h2 id="7-优点与可扩展性">7. 优点与可扩展性</h2> <ul> <li><strong>维护成本极低</strong>：增删书签只需修改一个 YAML 文件</li> <li><strong>零外部依赖</strong>：全部使用 Bootstrap 5 + 原生 JS</li> <li><strong>高度兼容</strong>：不依赖任何未启用插件，完全适配 al-folio</li> <li><strong>可扩展方向</strong>： <ul> <li>添加标签（tags）多条件筛选</li> <li>侧边栏固定分类目录</li> <li>一键复制链接按钮</li> <li>导出为 JSON/OPML</li> </ul> </li> </ul> <p>这个实现方案在简单性、美观性和功能性之间达到了极佳平衡，已成为个人网站中最实用的模块之一。</p> <p><strong>作者：David Wang</strong><br/> <strong>完成时间：2026年1月</strong></p>]]></content><author><name></name></author><category term="Jekyll"/><category term="layout"/><category term="distill"/><category term="Bookmark"/><summary type="html"><![CDATA[al-folio 模板中添加“书签与资源”板块的完整实现指南]]></summary></entry><entry><title type="html">Post文章中代码块无法被完整渲染的解决办法</title><link href="https://davidwangprc.github.io/blog/2026/HTML-post/" rel="alternate" type="text/html" title="Post文章中代码块无法被完整渲染的解决办法"/><published>2026-01-20T04:00:00+00:00</published><updated>2026-01-20T04:00:00+00:00</updated><id>https://davidwangprc.github.io/blog/2026/HTML-post</id><content type="html" xml:base="https://davidwangprc.github.io/blog/2026/HTML-post/"><![CDATA[<blockquote> <p>利用 <code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 和 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 或者 <code class="language-plaintext highlighter-rouge">raw</code> 和 <code class="language-plaintext highlighter-rouge">highlight</code> 元素包裹代码块</p> </blockquote> <h3 id="1-pre-元素内容保全的基石"><strong>1.</strong> <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 元素：<strong>内容保全</strong>的基石</h3> <p><br/> <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 是“预格式化文本”（Preformatted Text）的缩写，其<strong>核心设计原理是“所见即所得”</strong>。浏览器渲染 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 标签内的文本时，会<strong>严格保留所有的空白字符</strong>（空格、制表符、换行符）。这与处理普通段落（<code class="language-plaintext highlighter-rouge">&lt;p&gt;</code>）的逻辑截然不同——普通段落中，连续的空白符会被合并成一个空格。 <br/> 默认情况下，浏览器会为 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 元素应用 <code class="language-plaintext highlighter-rouge">white-space: pre;</code> 这个CSS属性。这个属性值正是“保留所有空白，仅在换行符处换行”的指令。当你将代码直接放在 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 标签内时，你实际上是在告诉Jekyll：“这部分内容我已经用原生HTML标记好了，不需要你进行Markdown到HTML的转换，更不需要调用语法高亮引擎（如Rouge）。” 这从根本上避免了因高亮引擎不支持某些语言而导致的渲染失败。 <br/> <br/>代码中的缩进、对齐、空行等结构会被原封不动地展示出来，这对于展示代码、命令行输出、ASCII图表等至关重要。 <br/> <br/>简单来说，<strong><code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code> 确保了内容的“形”不被改变</strong>。 <br/></p> <hr/> <p><br/></p> <h3 id="2-figure-元素语义关联的容器"><strong>2.</strong> <code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 元素：<strong>语义关联</strong>的容器</h3> <p><br/> <code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 是一个语义化容器元素，其<strong>核心设计原理是“标记一个独立的内容单元，并允许为其提供说明”</strong>。它用来包裹一块<strong>独立、自包含的内容</strong>（如图片、代码、图表、引文），并通过可选的 <code class="language-plaintext highlighter-rouge">&lt;figcaption&gt;</code> 子元素，将内容与其标题/说明<strong>在语义上明确地关联</strong>起来。 <br/> 从功能上讲，<code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 本身就像一个 <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>，但赋予了更强的语义。浏览器或辅助技术（如屏幕阅读器）可以识别这种关联，从而更好地理解页面结构。它将 <code class="language-plaintext highlighter-rouge">&lt;pre&gt;</code>（代码块）和 <code class="language-plaintext highlighter-rouge">&lt;figcaption&gt;</code>（说明文字）捆绑成一个逻辑整体。这在文档结构上清晰地表明“这段代码和下面的标题是一体的”。 <br/> 这种语义化的标记有助于屏幕阅读器用户理解内容关系，同时向搜索引擎清晰地传达了内容的结构。它为你提供了一个完美的、语义正确的“包装盒”，让你可以方便地为整个代码块单元（包括代码和说明）应用统一的CSS样式，比如添加边框、背景或外边距，而无需使用无语义的 <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>。 <br/> 简单来说，<strong><code class="language-plaintext highlighter-rouge">&lt;figure&gt;</code> 确保了内容与说明的“关系”被清晰地定义</strong>。</p> <hr/> <p><br/></p> <h3 id="3避免-html或者liquid代码块被执行的解决办法"><strong>3.</strong>避免 <code class="language-plaintext highlighter-rouge">html</code>或者<code class="language-plaintext highlighter-rouge">liquid</code>代码块<strong>被执行</strong>的解决办法<br/></h3> <p>使用<code class="language-plaintext highlighter-rouge">capture 变量 + raw 包代码 + xml_escape</code>输出纯文本的样式，保留缩进、空行，可随手加语法高亮，多段代码互不串扰。 <br/></p> <details><summary>原始代码 Click here to know more</summary> <pre class="keep-indent">
   <code class="language-html">
     
 
