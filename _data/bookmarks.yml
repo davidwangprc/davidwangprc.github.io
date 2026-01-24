@@ -1,0 +1,222 @@
+# _data/bookmarks.yml
+- category: 模型平台
+  items:
+    - title: CivitAI
+      url: https://civitai.com/
+      desc: 最大的 Stable Diffusion 模型和 LoRA 分享平台
+    - title: Shakker AI
+      url: https://www.shakker.ai/
+      desc: 支持多种模型的生成式 AI 设计工具
+    - title: PyTorch 本地安装
+      url: https://pytorch.org/get-started/locally/
+      desc: PyTorch 官方本地安装指南
+    - title: Hugging Face Models
+      url: https://huggingface.co/models
+      desc: 开源模型共享平台
+    - title: GitHub
+      url: https://github.com/
+      desc: 代码托管与开源项目平台
+    - title: ModelScope
+      url: https://modelscope.cn/home
+      desc: 阿里云模型社区
+
+- category: 提示词平台
+  items:
+    - title: Civitai Prompt Notebook
+      url: https://civitai.com/articles/3160/prompt-notebook
+      desc: 提示词整理与分享工具
+    - title: PromptPerfect
+      url: https://promptperfect.jina.ai/interactive
+      desc: 自动优化提示词工具
+
+- category: 工作流平台
+  items:
+    - title: Cephalon Cloud
+      url: https://cephalon.cloud/aigc#/share/register-landing?id=r8LBxd
+      desc: 在线 ComfyUI 工作流平台
+    - title: RunningHub
+      url: https://www.runninghub.ai/
+      desc: 在线 AI 工作流运行平台
+    - title: LiblibAI
+      url: https://www.liblib.art/
+      desc: 中文 AI 创作社区
+    - title: Patreon
+      url: https://www.patreon.com/home
+      desc: 创作者支持平台
+    - title: Comfy.ICU
+      url: https://comfy.icu/dashboard
+      desc: 在线 ComfyUI 服务
+    - title: ComfyUI Examples
+      url: https://comfyanonymous.github.io/ComfyUI_examples/
+      desc: 官方 ComfyUI 示例工作流
+    - title: OpenArt Workflows
+      url: https://openart.ai/workflows/home?appSort=featured
+      desc: ComfyUI 工作流分享社区
+    - title: Comfy Workflows
+      url: https://comfyworkflows.com/
+      desc: 工作流分享站点
+    - title: PixelAI Labs
+      url: https://pixelailabs.com
+      desc: AI 图像生成平台
+    - title: SeaArt AI
+      url: https://www.seaart.ai/zhCN
+      desc: 在线 AI 绘画平台
+
+- category: 算力平台(api)
+  items:
+    - title: 青椒云
+      url: https://account.qingjiaocloud.com/signin/?inviteCode=LOGA5PQW&tab=wechat
+      desc: 国内 GPU 云算力平台
+    - title: 智谱AI开放平台
+      url: https://www.bigmodel.cn/usercenter/proj-mgmt/apikeys
+      desc: GLM 大模型 API
+    - title: SiliconCloud
+      url: https://cloud.siliconflow.cn/me/models
+      desc: 国内模型推理平台
+
+- category: 镜像资源
+  items:
+    - title: 国内 Git/Pip 加速镜像
+      url: https://www.cnblogs.com/lzdxh027/p/17321694.html
+      desc: 常用国内镜像源汇总
+
+- category: 应用平台
+  items:
+    - title: Shutterstock Generate
+      url: https://www.shutterstock.com/generate
+      desc: 商业级 AI 图像生成
+    - title: Qwen Chat
+      url: https://chat.qwen.ai/
+      desc: 通义千问对话
+    - title: Coze
+      url: https://www.coze.com/space/7344572525600440327/bot/7344567046334332930
+      desc: AI Bot 构建平台
+    - title: 可灵视频
+      url: https://klingai.kuaishou.com/image-to-video/multi-id/78547029
+      desc: 快手可灵视频生成
+    - title: Google AI Studio
+      url: https://aistudio.google.com/prompts/new_chat
+      desc: Google Gemini 实验平台
+    - title: ComfyAI.run
+      url: https://comfyai.run/workflow/85d1c535-6bb1-4385-ab57-bbd81e73bd7b
+      desc: 在线运行 ComfyUI 工作流
+    - title: Topaz Labs
+      url: https://app.topazlabs.com/
+      desc: AI 图像增强工具
+    - title: 豆包
+      url: https://www.doubao.com/chat/?from_login=1
+      desc: 字节跳动大模型对话
+    - title: Kimi
+      url: https://www.kimi.com/
+      desc: Moonshot AI 长上下文模型
+    - title: PixVerse
+      url: https://app.pixverse.ai/onboard
+      desc: AI 视频生成平台
+    - title: Sonauto
+      url: https://sonauto.ai/editor/7b71409c-d257-4d2d-b482-028d5a6b85f3
+      desc: AI 音乐生成
+    - title: Suno
+      url: https://suno.com/
+      desc: AI 音乐创作平台
+    - title: Skywork.ai
+      url: https://skywork.ai/
+      desc: 昆仑万维大模型平台
+    - title: NoteGPT
+      url: https://notegpt.io/
+      desc: AI 笔记总结工具
+    - title: Pixelcut
+      url: https://www.pixelcut.ai/ai-image-editor?tool=uncrop
+      desc: AI 图像编辑扩展
+    - title: MindVideo
+      url: https://www.mindvideo.ai/zh/text-to-video/
+      desc: 文本到视频生成
+    - title: Grok
+      url: https://grok.com
+      desc: xAI Grok 聊天机器人
+    - title: Sora
+      url: https://sora.chatgpt.com/explore
+      desc: OpenAI 文本到视频模型
+
+- category: 字符图像
+  items:
+    - title: Lorem Ipsum
+      url: https://www.lipsum.com/
+      desc: 占位文字生成器
+    - title: WordArt.com
+      url: https://wordart.com/dashboard
+      desc: 艺术字生成
+    - title: Face Emojis
+      url: https://emojidb.org/face-emojis
+      desc: 表情符号搜索
+    - title: Emoji大全
+      url: https://www.emojiall.com/zh-hans
+      desc: 中文 Emoji 百科
+    - title: EmojiCopy
+      url: https://emojicopy.com/
+      desc: 一键复制 Emoji
+
+- category: 综合图像
+  items:
+    - title: Pexels
+      url: https://www.pexels.com/zh-cn/
+      desc: 免费高清图片
+    - title: Pinterest
+      url: https://ru.pinterest.com
+      desc: 灵感收集平台
+    - title: ArtStation
+      url: https://www.artstation.com
+      desc: 艺术作品展示
+    - title: Pixabay
+      url: https://pixabay.com/
+      desc: 免费商用图片
+    - title: Lexica
+      url: https://lexica.art/
+      desc: Stable Diffusion 提示词搜索
+    - title: Unsplash
+      url: https://unsplash.com/
+      desc: 高质量免费照片
+    - title: Fancaps.net
+      url: https://fancaps.net/
+      desc: 动画/电影截图
+    - title: Getty Images
+      url: https://www.gettyimages.hk/
+      desc: 专业图库
+    - title: Rawpixel
+      url: https://www.rawpixel.com/
+      desc: 免费公共领域图片
+    - title: China Entertainment News
+      url: https://www.chinaentertainmentnews.com/
+      desc: 娱乐新闻图片
+
+- category: 3DModels
+  items:
+    - title: 3DModels.org
+      url: https://3dmodels.org/zh/
+      desc: 免费3D模型下载
+
+- category: PNG
+  items:
+    - title: iconmonstr
+      url: https://iconmonstr.com/
+      desc: 免费图标库
+    - title: FreePNGImg
+      url: https://freepngimg.com/
+      desc: 透明 PNG 图片
+    - title: Pngaaa.com
+      url: https://www.pngaaa.com
+      desc: PNG 素材下载
+
+- category: 图像搜索
+  items:
+    - title: PimEyes
+      url: https://pimeyes.com/en
+      desc: 人脸反向图像搜索
+    - title: TinEye
+      url: https://tineye.com/
+      desc: 通用反向图像搜索
+    - title: SauceNAO
+      url: https://saucenao.com/
+      desc: 二次元图像搜索
+    - title: trace.moe
+      url: https://trace.moe/
+      desc: 动画场景搜索
