@@ -11,8 +11,8 @@ nav_order: 4
   <div class="row justify-content-center">
     <div class="col-12 col-xl-11">
       <header class="post-header mb-5 text-center">
-        <h1 class="post-title">{{ page.title }}</h1>
-        <p class="lead text-muted">{{ page.description }}</p>
+        <!-- <h1 class="post-title">{{ page.title }}</h1>
+        <p class="lead text-muted">{{ page.description }}</p>  -->
       </header>
 
       <!-- 搜索框 -->
@@ -106,8 +106,13 @@ nav_order: 4
   }
 </style>
 
+<!-- 加载 Bootstrap 5 JS（启用 collapse、tooltip 等交互组件） -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+<!-- 可选：保留搜索功能 JS（必须放在 Bootstrap JS 之后） -->
 <script>
-  // 实时搜索功能
   document.getElementById('bookmarkSearch').addEventListener('input', function(e) {
     const query = e.target.value.toLowerCase().trim();
     document.querySelectorAll('.bookmark-item').forEach(item => {
@@ -116,28 +121,16 @@ nav_order: 4
       const domain = item.dataset.domain;
       const matched = title.includes(query) || desc.includes(query) || domain.includes(query);
       item.style.display = matched ? '' : 'none';
-      
-      // 如果该分类下所有项目都隐藏，则隐藏整个分类内容
-      const collapse = item.closest('.collapse');
-      if (collapse) {
-        const visibleItems = collapse.querySelectorAll('.bookmark-item[style=""]');
-        const allItems = collapse.querySelectorAll('.bookmark-item');
-        if (visibleItems.length === 0 && allItems.length > 0) {
-          collapse.classList.remove('show');
-        } else if (visibleItems.length > 0) {
-          collapse.classList.add('show');
-        }
-      }
     });
-  });
 
-  // 可折叠图标旋转（Bootstrap 5 collapse 事件）
-  document.querySelectorAll('.collapse').forEach(collapse => {
-    collapse.addEventListener('show.bs.collapse', function () {
-      this.previousElementSibling.querySelector('.transition-icon').style.transform = 'rotate(0deg)';
-    });
-    collapse.addEventListener('hide.bs.collapse', function () {
-      this.previousElementSibling.querySelector('.transition-icon').style.transform = 'rotate(-90deg)';
+    // 可选：搜索时自动展开有结果的分类
+    document.querySelectorAll('.collapse').forEach(collapse => {
+      const hasVisible = collapse.querySelector('.bookmark-item[style=""]');
+      if (hasVisible) {
+        bootstrap.Collapse.getInstance(collapse)?.show();
+      } else {
+        bootstrap.Collapse.getInstance(collapse)?.hide();
+      }
     });
   });
 </script>
