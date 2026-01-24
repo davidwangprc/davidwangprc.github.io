@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://davidwangprc.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://davidwangprc.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2026-01-24T05:42:43+00:00</updated><id>https://davidwangprc.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">添加“书签与资源”板块的完整实现指南</title><link href="https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0-%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90-%E6%9D%BF%E5%9D%97/" rel="alternate" type="text/html" title="添加“书签与资源”板块的完整实现指南"/><published>2026-01-24T00:00:00+00:00</published><updated>2026-01-24T00:00:00+00:00</updated><id>https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0%E2%80%9C%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90%E2%80%9D%E6%9D%BF%E5%9D%97</id><content type="html" xml:base="https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0-%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90-%E6%9D%BF%E5%9D%97/"><![CDATA[<h1 id="al-folio-模板中添加书签与资源板块的完整实现指南">al-folio 模板中添加“书签与资源”板块的完整实现指南</h1> <p>在 al-folio 学术网站模板中添加一个功能完整、美观实用的<strong>书签与资源（Bookmarks）</strong>页面，是一个非常典型的自定义扩展案例。下面详细记录整个实现过程、核心逻辑、代码原理和关键技巧，供后续维护、复用或学习参考。</p> <h2 id="1-设计目标与最终效果">1. 设计目标与最终效果</h2> <ul> <li>集中管理大量外部链接资源（60+ 条）</li> <li>支持按分类组织</li> <li>每个书签显示：标题、描述、域名、网站 favicon</li> <li>页面内容接近全宽显示</li> <li>每个分类可折叠/展开</li> <li>顶部实时搜索（支持标题、描述、域名模糊匹配）</li> <li>交互优雅：悬停高亮、图标动画、深色模式完美支持</li> <li>维护成本极低：所有数据集中在一个 YAML 文件</li> </ul> <h2 id="2-核心实现思路为什么选择这种方式">2. 核心实现思路（为什么选择这种方式）</h2> <p>al-folio 提供了多种展示集合的方式：</p> <ul> <li>Collection（每个条目一个 md 文件）→ 适合少量项目（如 Projects、Recipes）</li> <li><code class="language-plaintext highlighter-rouge">_data/*.yml</code> + Liquid 循环 → 适合大量条目、频繁更新</li> </ul> <p>由于书签数量多、经常增删，最终选择 <strong><code class="language-plaintext highlighter-rouge">_data/bookmarks.yml</code> + 单页面渲染</strong> 的方案：</p> <ul> <li>所有数据集中管理，修改只需编辑一个文件</li> <li>无需自定义 layout，避免 Liquid 继承错误（如 <code class="language-plaintext highlighter-rouge">extends</code> 不支持）</li> <li>完全利用 Bootstrap 5 原生组件（list-group、collapse、form-control）</li> <li>通过少量 CSS + JS 实现高级交互</li> </ul> <h2 id="3-文件结构">3. 文件结构</h2> <figure> <pre style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace; font-size: 0.9em;">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://davidwangprc.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://davidwangprc.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2026-01-24T06:09:47+00:00</updated><id>https://davidwangprc.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">添加“书签与资源”板块的完整实现指南</title><link href="https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0-%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90-%E6%9D%BF%E5%9D%97/" rel="alternate" type="text/html" title="添加“书签与资源”板块的完整实现指南"/><published>2026-01-24T00:00:00+00:00</published><updated>2026-01-24T00:00:00+00:00</updated><id>https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0%E2%80%9C%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90%E2%80%9D%E6%9D%BF%E5%9D%97</id><content type="html" xml:base="https://davidwangprc.github.io/blog/2026/%E6%B7%BB%E5%8A%A0-%E4%B9%A6%E7%AD%BE%E4%B8%8E%E8%B5%84%E6%BA%90-%E6%9D%BF%E5%9D%97/"><![CDATA[<h1 id="al-folio-模板中添加书签与资源板块的完整实现指南">al-folio 模板中添加“书签与资源”板块的完整实现指南</h1> <p>在 al-folio 学术网站模板中添加一个功能完整、美观实用的<strong>书签与资源（Bookmarks）</strong>页面，是一个非常典型的自定义扩展案例。下面详细记录整个实现过程、核心逻辑、代码原理和关键技巧，供后续维护、复用或学习参考。</p> <h2 id="1-设计目标与最终效果">1. 设计目标与最终效果</h2> <ul> <li>集中管理大量外部链接资源（60+ 条）</li> <li>支持按分类组织</li> <li>每个书签显示：标题、描述、域名、网站 favicon</li> <li>页面内容接近全宽显示</li> <li>每个分类可折叠/展开</li> <li>顶部实时搜索（支持标题、描述、域名模糊匹配）</li> <li>交互优雅：悬停高亮、图标动画、深色模式完美支持</li> <li>维护成本极低：所有数据集中在一个 YAML 文件</li> </ul> <h2 id="2-核心实现思路为什么选择这种方式">2. 核心实现思路（为什么选择这种方式）</h2> <p>al-folio 提供了多种展示集合的方式：</p> <ul> <li>Collection（每个条目一个 md 文件）→ 适合少量项目（如 Projects、Recipes）</li> <li><code class="language-plaintext highlighter-rouge">_data/*.yml</code> + Liquid 循环 → 适合大量条目、频繁更新</li> </ul> <p>由于书签数量多、经常增删，最终选择 <strong><code class="language-plaintext highlighter-rouge">_data/bookmarks.yml</code> + 单页面渲染</strong> 的方案：</p> <ul> <li>所有数据集中管理，修改只需编辑一个文件</li> <li>无需自定义 layout，避免 Liquid 继承错误（如 <code class="language-plaintext highlighter-rouge">extends</code> 不支持）</li> <li>完全利用 Bootstrap 5 原生组件（list-group、collapse、form-control）</li> <li>通过少量 CSS + JS 实现高级交互</li> </ul> <h2 id="3-文件结构">3. 文件结构</h2> <figure> <pre style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace; font-size: 0.9em;">
 /
 ├─ _data/
 │  └─ bookmarks.yml                 ← 所有书签数据（核心）
@@ -40,7 +40,7 @@
     <span class="c1"># ... 更多条目</span>
 
 <span class="c1"># 其他分类同理</span>
-</pre></td></tr></tbody></table></code></pre></figure> <p><strong>原理</strong>：Jekyll 自动将 <code class="language-plaintext highlighter-rouge">_data</code> 目录下的 YAML 文件加载为 <code class="language-plaintext highlighter-rouge">site.data</code>，可在任何页面通过 <code class="language-plaintext highlighter-rouge">site.data.bookmarks</code> 访问。</p> <h2 id="5-主页面_pagesbookmarksmd">5. 主页面：_pages/bookmarks.md</h2> <details><summary>完整代码与原理说明</summary> <pre class="keep-indent">
+</pre></td></tr></tbody></table></code></pre></figure> <p><strong>原理</strong>：Jekyll 自动将 <code class="language-plaintext highlighter-rouge">_data</code> 目录下的 YAML 文件加载为 <code class="language-plaintext highlighter-rouge">site.data</code>，可在任何页面通过 <code class="language-plaintext highlighter-rouge">site.data.bookmarks</code> 访问。</p> <h2 id="5-主页面_pagesbookmarksmd">5. 主页面：_pages/bookmarks.md</h2> <blockquote> <p>手动引入 Bootstrap 5 的 JS bundle（包含 Collapse、Dropdown 等所有组件），放在页面底部。绕过了模板是否加载 JS 的问题，直接从官方 CDN 加载，确保 bootstrap 对象存在。</p> </blockquote> <details><summary>完整代码与原理说明</summary> <pre class="keep-indent">
   <code class="language-html">
     
 
@@ -141,9 +141,8 @@ nav_order: 4
   #bookmarkSearch { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 &lt;/style&gt;
 
-&lt;!-- JavaScript 实现搜索与折叠交互 --&gt;
+&lt;!-- 可选：保留搜索功能 JS（必须放在 Bootstrap JS 之后） --&gt;
 &lt;script&gt;
-  // 实时搜索
   document.getElementById(&apos;bookmarkSearch&apos;).addEventListener(&apos;input&apos;, function(e) {
     const query = e.target.value.toLowerCase().trim();
     document.querySelectorAll(&apos;.bookmark-item&apos;).forEach(item =&gt; {
@@ -152,28 +151,16 @@ nav_order: 4
       const domain = item.dataset.domain;
       const matched = title.includes(query) || desc.includes(query) || domain.includes(query);
       item.style.display = matched ? &apos;&apos; : &apos;none&apos;;
+    });
 
-      // 自动控制分类折叠状态
-      const collapse = item.closest(&apos;.collapse&apos;);
-      if (collapse) {
-        const visibleItems = collapse.querySelectorAll(&apos;.bookmark-item[style=&quot;&quot;]&apos;);
-        const allItems = collapse.querySelectorAll(&apos;.bookmark-item&apos;);
-        if (visibleItems.length === 0 &amp;&amp; allItems.length &gt; 0) {
-          collapse.classList.remove(&apos;show&apos;);
-        } else if (visibleItems.length &gt; 0) {
-          collapse.classList.add(&apos;show&apos;);
-        }
+    // 可选：搜索时自动展开有结果的分类
+    document.querySelectorAll(&apos;.collapse&apos;).forEach(collapse =&gt; {
+      const hasVisible = collapse.querySelector(&apos;.bookmark-item[style=&quot;&quot;]&apos;);
+      if (hasVisible) {
+        bootstrap.Collapse.getInstance(collapse)?.show();
+      } else {
+        bootstrap.Collapse.getInstance(collapse)?.hide();
       }
-    });
-  });
-
-  // Bootstrap collapse 事件：控制箭头旋转
-  document.querySelectorAll(&apos;.collapse&apos;).forEach(collapse =&gt; {
-    collapse.addEventListener(&apos;show.bs.collapse&apos;, () =&gt; {
-      collapse.previousElementSibling.querySelector(&apos;.transition-icon&apos;).style.transform = &apos;rotate(0deg)&apos;;
-    });
-    collapse.addEventListener(&apos;hide.bs.collapse&apos;, () =&gt; {
-      collapse.previousElementSibling.querySelector(&apos;.transition-icon&apos;).style.transform = &apos;rotate(-90deg)&apos;;
     });
   });
 &lt;/script&gt;

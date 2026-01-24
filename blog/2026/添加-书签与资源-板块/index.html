@@ -66,7 +66,7 @@
     <span class="c1"># ... 更多条目</span>
 
 <span class="c1"># 其他分类同理</span>
-</pre></td> </tr></tbody></table></code></pre></figure> <p><strong>原理</strong>：Jekyll 自动将 <code class="language-plaintext highlighter-rouge">_data</code> 目录下的 YAML 文件加载为 <code class="language-plaintext highlighter-rouge">site.data</code>，可在任何页面通过 <code class="language-plaintext highlighter-rouge">site.data.bookmarks</code> 访问。</p> <h2 id="5-主页面_pagesbookmarksmd">5. 主页面：_pages/bookmarks.md</h2> <details><summary>完整代码与原理说明</summary> <pre class="keep-indent">
+</pre></td> </tr></tbody></table></code></pre></figure> <p><strong>原理</strong>：Jekyll 自动将 <code class="language-plaintext highlighter-rouge">_data</code> 目录下的 YAML 文件加载为 <code class="language-plaintext highlighter-rouge">site.data</code>，可在任何页面通过 <code class="language-plaintext highlighter-rouge">site.data.bookmarks</code> 访问。</p> <h2 id="5-主页面_pagesbookmarksmd">5. 主页面：_pages/bookmarks.md</h2> <blockquote> <p>手动引入 Bootstrap 5 的 JS bundle（包含 Collapse、Dropdown 等所有组件），放在页面底部。绕过了模板是否加载 JS 的问题，直接从官方 CDN 加载，确保 bootstrap 对象存在。</p> </blockquote> <details><summary>完整代码与原理说明</summary> <pre class="keep-indent">
   <code class="language-html">
     
 
@@ -167,9 +167,8 @@ nav_order: 4
   #bookmarkSearch { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 &lt;/style&gt;
 
-&lt;!-- JavaScript 实现搜索与折叠交互 --&gt;
+&lt;!-- 可选：保留搜索功能 JS（必须放在 Bootstrap JS 之后） --&gt;
 &lt;script&gt;
-  // 实时搜索
   document.getElementById('bookmarkSearch').addEventListener('input', function(e) {
     const query = e.target.value.toLowerCase().trim();
     document.querySelectorAll('.bookmark-item').forEach(item =&gt; {
@@ -178,28 +177,16 @@ nav_order: 4
       const domain = item.dataset.domain;
       const matched = title.includes(query) || desc.includes(query) || domain.includes(query);
       item.style.display = matched ? '' : 'none';
+    });
 
-      // 自动控制分类折叠状态
-      const collapse = item.closest('.collapse');
-      if (collapse) {
-        const visibleItems = collapse.querySelectorAll('.bookmark-item[style=""]');
-        const allItems = collapse.querySelectorAll('.bookmark-item');
-        if (visibleItems.length === 0 &amp;&amp; allItems.length &gt; 0) {
-          collapse.classList.remove('show');
-        } else if (visibleItems.length &gt; 0) {
-          collapse.classList.add('show');
-        }
+    // 可选：搜索时自动展开有结果的分类
+    document.querySelectorAll('.collapse').forEach(collapse =&gt; {
+      const hasVisible = collapse.querySelector('.bookmark-item[style=""]');
+      if (hasVisible) {
+        bootstrap.Collapse.getInstance(collapse)?.show();
+      } else {
+        bootstrap.Collapse.getInstance(collapse)?.hide();
       }
-    });
-  });
-
-  // Bootstrap collapse 事件：控制箭头旋转
-  document.querySelectorAll('.collapse').forEach(collapse =&gt; {
-    collapse.addEventListener('show.bs.collapse', () =&gt; {
-      collapse.previousElementSibling.querySelector('.transition-icon').style.transform = 'rotate(0deg)';
-    });
-    collapse.addEventListener('hide.bs.collapse', () =&gt; {
-      collapse.previousElementSibling.querySelector('.transition-icon').style.transform = 'rotate(-90deg)';
     });
   });
 &lt;/script&gt;
