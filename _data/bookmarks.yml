@@ -20,6 +20,12 @@
       url: https://modelscope.cn/home
       desc: 阿里云模型社区
 
+- category: ComfyUI GItHub资源库
+  items:
+    - title: Comfy-Org/ComfyUI
+      url: https://github.com/Comfy-Org/ComfyUI
+      desc: ComfyUI 官方代码库
+
 - category: 提示词平台
   items:
     - title: Civitai Prompt Notebook

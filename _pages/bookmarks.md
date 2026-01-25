@@ -23,13 +23,13 @@ nav_order: 4
       {% for cat in site.data.bookmarks %}
         <!-- 分类标题（可折叠） -->
         <h2 class="category mb-4 d-flex align-items-center collapsible" data-bs-toggle="collapse" data-bs-target="#collapse-{{ cat.category | slugify }}" style="cursor: pointer;">
-          <i class="fas fa-chevron-down me-2 transition-icon"></i>
-          {{ cat.category }}
+          <i class="fa-solid fa-circle-arrow-right transition-icon"></i>&nbsp;{{ cat.category }}&nbsp;
           <span class="badge bg-secondary ms-auto">{{ cat.items.size }} 个</span>
         </h2>
 
         <!-- 分类内容（可折叠区域） -->
-        <div class="collapse show" id="collapse-{{ cat.category | slugify }}">
+        <div class="collapse" id="collapse-{{ cat.category | slugify }}">
+        <!-- class="collapse show" 默认折叠或展开 -->
           <div class="list-group mb-5">
             {% for item in cat.items %}
               <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" 
@@ -38,8 +38,8 @@ nav_order: 4
                  data-desc="{{ item.desc | default: '' | downcase }}"
                  data-domain="{{ item.url | remove: 'https://' | remove: 'http://' | split: '/' | first | downcase }}">
                 <!-- 左侧外链图标 -->
-                <div class="me-4 text-muted flex-shrink-0">
-                  <i class="fas fa-external-link-alt fa-lg"></i>
+                <div class="me-5 text-muted flex-shrink-0">
+                  <i class="fas fa-external-link-alt fa-lg"></i>&#8194;
                 </div>
 
                 <!-- 中间文字信息 -->
@@ -73,12 +73,29 @@ nav_order: 4
 </div>
 
 <style>
-  .collapsible:hover { opacity: 0.8; }
+  /* 折叠箭头控制 - 适配 fa-circle-arrow-right */
   .transition-icon {
     transition: transform 0.3s ease;
+    display: inline-block;
   }
-  .collapsed .transition-icon {
-    transform: rotate(-90deg);
+
+  /* 强制默认折叠状态：向右（关键！覆盖初始bug） */
+  .collapsible .transition-icon {
+    transform: rotate(0deg);
+  }
+
+  /* 展开状态：向下（旋转 90 度） */
+  .collapsible[aria-expanded="true"] .transition-icon {
+    transform: rotate(90deg);
+    opacity: 0.8;
+  }
+
+  /* 可选：悬停时轻微放大 */
+  .collapsible:hover .transition-icon {
+    transform: scale(1.1) rotate(0deg);
+  }
+  .collapsible[aria-expanded="true"]:hover .transition-icon {
+    transform: scale(1.1) rotate(90deg);
   }
   .hover-shadow {
     transition: all 0.3s ease;
